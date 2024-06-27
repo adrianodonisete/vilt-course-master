@@ -8,7 +8,12 @@ class IndexController extends Controller
 {
     public function index()
     {
-        return inertia('Index/Index');
+        return inertia(
+            'Index/Index',
+            [
+                'message' => 'Home - Laravel 11'
+            ]
+        );
     }
 
     public function show()
