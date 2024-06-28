@@ -1,4 +1,6 @@
 <template>
+  <h3>Default Layout</h3>
+
   <Link href="/">Main Page</Link>&nbsp;
   <Link href="/hello">Hello Page</Link>
 
