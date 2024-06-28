@@ -1,26 +1,21 @@
 <template>
-  <div>Index</div>
-  <br />
-  <Link href="/hello">Show Page</Link>
-
-  <div>The message is {{ message }}</div>
+  <div
+    v-for="listing in listings"
+    :key="listing.id">
+    <Link :href="`/listing/${listing.id}`">
+      <listing-address :listing="listing"></listing-address>
+    </Link>
+  </div>
 </template>
 
 <script setup>
 import { Link } from '@inertiajs/vue3';
+import ListingAddress from '@/Components/ListingAddress.vue';
 
 defineProps({
-  message: {
-    String,
-    default: 'Message default',
+  listings: {
+    Array,
+    default: [],
   },
 });
-</script>
-
-<script>
-import DefaultLayout from '@/Layouts/DefaultLayout.vue';
-
-export default {
-  layout: DefaultLayout,
-};
 </script>
