@@ -1,14 +1,14 @@
 <template>
-  <h3>Default Layout</h3>
+	<h3>Default Layout</h3>
 
-  <Link href="/">Main Page</Link>&nbsp;
-  <Link href="/hello">Hello Page</Link>
+	<Link href="/listing">Listing</Link> &nbsp;
+	<Link href="/listing/create">Add New Listing</Link>
 
-  <div>The page with time {{ timer }}</div>
+	<div>The page with time {{ timer }}</div>
 
-  <slot>
-    <h3>Default html</h3>
-  </slot>
+	<slot>
+		<h3>Default html</h3>
+	</slot>
 </template>
 
 <script setup>

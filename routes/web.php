@@ -12,8 +12,12 @@ Route::get('/welcome', function () {
 Route::get('/', [IndexController::class, 'index']);
 Route::get('/hello', [IndexController::class, 'show']);
 
-Route::resource('listing', ListingController::class)
-    ->only(['index', 'show', 'create', 'store']);
+Route::resource('listing', ListingController::class);
+
+Route::get('/teste', function () {
+    return redirect()->route('listing.index')
+        ->with('success', 'teste redir - ' . date('his'));
+});
 
 // Route::get('/', function () {
 //     return inertia('Index/Index');

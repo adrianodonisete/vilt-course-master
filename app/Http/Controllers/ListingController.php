@@ -8,9 +8,6 @@ use App\Models\Listing;
 
 class ListingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         return inertia(
@@ -21,25 +18,23 @@ class ListingController extends Controller
         );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return inertia('Listing/Create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        Listing::create(
+            $request->validate(
+                Listing::validateRules()
+            )
+        );
+
+        return redirect()->route('listing.index')
+            ->with('success', 'Listing was created!');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Listing $listing)
     {
         return inertia(
@@ -50,27 +45,33 @@ class ListingController extends Controller
         );
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Listing $listing)
     {
-        //
+        return inertia(
+            'Listing/Edit',
+            [
+                'listing' => $listing,
+            ]
+        );
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Listing $listing)
     {
-        //
+        $listing->update(
+            $request->validate(
+                Listing::validateRules()
+            )
+        );
+
+        return redirect()->route('listing.index')
+            ->with('success', 'Listing was updated!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Listing $listing)
     {
-        //
+        $listing->delete();
+
+        return redirect()->back()
+            ->with('success', 'Listing was deleted!');
     }
 }
