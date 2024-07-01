@@ -30,7 +30,8 @@ export default defineConfig({
 	],
 	resolve: {
 		alias: {
-			ziggy: path.resolve('vendor/tightenco/ziggy/dist/vue.es.js'),
+			// ziggy: path.resolve('vendor/tightenco/ziggy/dist/vue.es.js'), // OLD version
+			'ziggy-js': path.resolve('vendor/tightenco/ziggy/dist/index.js'),
 		},
 	},
 });

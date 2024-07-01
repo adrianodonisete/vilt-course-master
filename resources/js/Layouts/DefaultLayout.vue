@@ -1,8 +1,8 @@
 <template>
 	<h3>Default Layout</h3>
 
-	<Link href="/listing">Listing</Link> &nbsp;
-	<Link href="/listing/create">Add New Listing</Link>
+	<Link :href="route('listing.index')">Listings</Link> &nbsp;
+	<Link :href="route('listing.create')">Add New Listing</Link>
 
 	<div>The page with time {{ timer }}</div>
 

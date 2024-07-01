@@ -9,8 +9,10 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
-Route::get('/', [IndexController::class, 'index']);
-Route::get('/hello', [IndexController::class, 'show']);
+Route::get('/', [IndexController::class, 'index'])
+    ->name('page.index');
+Route::get('/hello', [IndexController::class, 'show'])
+    ->name('page.hello');
 
 Route::resource('listing', ListingController::class);
 

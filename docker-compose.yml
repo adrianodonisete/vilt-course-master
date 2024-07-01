@@ -53,7 +53,7 @@ services:
       timeout: 5s
   adminer:
     image: adminer
-    restart: always
+    # restart: always
     ports:
       - 8080:8080
     networks:
