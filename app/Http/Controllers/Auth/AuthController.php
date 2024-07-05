@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -11,9 +14,22 @@ class AuthController extends Controller
         return inertia('Auth/Login');
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        # code...
+        $inputValidated = $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ]);
+        if (!Auth::attempt($inputValidated, true)) {
+            throw ValidationException::withMessages([
+                'email' => 'Authentication failed'
+            ]);
+        }
+
+        $request->session()->regenerate();
+
+        return redirect()->intended(route('listing.index'))
+            ->with('success', 'Authentication success!');
     }
 
     public function destroy()

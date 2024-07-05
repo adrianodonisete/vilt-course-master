@@ -1,10 +1,12 @@
 <template>
-	<div>Index</div>
-	<br />
+	<div>
+		<div>Index</div>
+		<br />
 
-	<Link :href="route('page.hello')">Page Hello</Link>
+		<Link :href="route('page.hello')">Page Hello</Link>
 
-	<div>The message is {{ message }}</div>
+		<div>The message is {{ message }}</div>
+	</div>
 </template>
 
 <script setup>
@@ -16,12 +18,4 @@ defineProps({
 		default: 'Message default',
 	},
 });
-</script>
-
-<script>
-import DefaultLayout from '@/Layouts/DefaultLayout.vue';
-
-export default {
-	layout: DefaultLayout,
-};
 </script>
