@@ -29,6 +29,8 @@ Route::get('hello', [IndexController::class, 'show'])
 
 Route::get('cean', [EanController::class, 'show'])
     ->name('cean.show');
+Route::get('routes', [IndexController::class, 'routes'])
+    ->name('page.routes');
 
 Route::get('welcome', function () {
     return 'welcome';
