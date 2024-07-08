@@ -26,9 +26,13 @@ Route::get('hello', [IndexController::class, 'show'])
     ->name('page.hello');
 
 
-
+Route::get('cean/create', [EanController::class, 'create'])
+    ->name('cean.create');
 Route::get('cean', [EanController::class, 'show'])
     ->name('cean.show');
+Route::post('cean', [EanController::class, 'store'])
+    ->name('cean.store');
+
 Route::get('routes', [IndexController::class, 'routes'])
     ->name('page.routes');
 

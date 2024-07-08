@@ -23,9 +23,7 @@
                 <td>{{ $route['uri'] }}</td>
                 <td>{{ $route['name'] }}</td>
                 <td>{{ $route['action'] }}</td>
-                <td>
-                    {{ $route['uri'] }}
-                </td>
+                <td>{{ $route['uri'] }}</td>
             </tr>
         @endforeach
     </table>

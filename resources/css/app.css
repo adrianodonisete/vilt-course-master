@@ -18,4 +18,8 @@
   .btn-primary {
     @apply bg-indigo-600 hover:bg-indigo-500 text-white font-medium p-2 rounded-md
   }
+
+  .dv-group-form {
+    @apply px-1 py-2
+  }
 }
