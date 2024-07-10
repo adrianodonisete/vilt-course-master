@@ -32,8 +32,14 @@ class AuthController extends Controller
             ->with('success', 'Authentication success!');
     }
 
-    public function destroy()
+    public function destroy(Request $request)
     {
-        # code...
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->intended(route('listing.index'))
+            ->with('success', 'Logout success!');
     }
 }

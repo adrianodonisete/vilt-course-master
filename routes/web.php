@@ -11,7 +11,12 @@ Route::get('/', function () {
     return redirect()->route('page.index');
 });
 
-Route::resource('listing', ListingController::class);
+Route::resource('listing', ListingController::class)
+    ->only(['create', 'store', 'edit', 'update', 'destroy'])
+    ->middleware('auth');
+
+Route::resource('listing', ListingController::class)
+    ->except(['create', 'store', 'edit', 'update', 'destroy']);
 
 Route::get('login', [AuthController::class, 'create'])
     ->name('login');
@@ -21,9 +26,11 @@ Route::delete('logout', [AuthController::class, 'destroy'])
     ->name('logout');
 
 Route::get('page/index', [IndexController::class, 'index'])
-    ->name('page.index');
+    ->name('page.index')
+    ->middleware('valid.option');
 Route::get('hello', [IndexController::class, 'show'])
-    ->name('page.hello');
+    ->name('page.hello')
+    ->middleware('auth');
 
 
 Route::get('cean/create', [EanController::class, 'create'])
