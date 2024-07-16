@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 
 use App\Models\Produtos\Ean;
 use App\Http\Requests\Produtos\EanRequest;
+use App\Enums\UserLevelAdmin;
 
 class EanController extends Controller
 {
@@ -22,7 +23,14 @@ class EanController extends Controller
             $eansList[] = $addEan;
         }
 
-        return view('produtos.ean', ['eans' => $eansList]);
+        $nivelSite = UserLevelAdmin::label(25);
+        $niveisAll = UserLevelAdmin::toArray();
+
+        return view('produtos.ean', [
+            'eans' => $eansList,
+            'nivelSite' => $nivelSite,
+            'niveisAll' => $niveisAll,
+        ]);
     }
 
     public function create()

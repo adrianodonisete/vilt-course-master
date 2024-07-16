@@ -25,7 +25,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         ]);
 
-        $middleware->redirectGuestsTo(fn (Request $request) => route('page.index'));
+        // $middleware->redirectGuestsTo(fn (Request $request) => route('page.index'));
 
         $middleware->alias([
             'valid.option' => ValidateOption::class
