@@ -6,6 +6,7 @@ use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Produtos\EanController;
+use App\Http\Controllers\Users\UserAccountController;
 
 Route::get('/', function () {
     return redirect()->route('page.index');
@@ -26,6 +27,10 @@ Route::post('login', [AuthController::class, 'store'])
 Route::delete('logout', [AuthController::class, 'destroy'])
     ->name('logout');
 
+Route::resource('user-account', UserAccountController::class)
+    ->only(['create', 'store']);
+
+
 Route::get('page/index', [IndexController::class, 'index'])
     ->name('page.index')
     ->middleware('valid.option');
@@ -34,12 +39,6 @@ Route::get('hello', [IndexController::class, 'show'])
     ->middleware('auth');
 
 
-Route::get('cean/create', [EanController::class, 'create'])
-    ->name('cean.create');
-Route::get('cean', [EanController::class, 'show'])
-    ->name('cean.show');
-Route::post('cean', [EanController::class, 'store'])
-    ->name('cean.store');
 
 Route::get('routes', [IndexController::class, 'routes'])
     ->name('page.routes');
@@ -55,7 +54,18 @@ Route::get('page/erp', function () {
     return 'erp';
 })->name('page.erp');
 
+
+
+// testes geral
 Route::get('teste', function () {
     return redirect()->route('listing.index')
         ->with('success', 'teste redir - ' . date('his'));
 });
+
+// cean
+Route::get('cean/create', [EanController::class, 'create'])
+    ->name('cean.create');
+Route::get('cean', [EanController::class, 'show'])
+    ->name('cean.show');
+Route::post('cean', [EanController::class, 'store'])
+    ->name('cean.store');
