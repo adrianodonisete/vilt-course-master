@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use App\Models\Listing;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+
+use App\Models\Listing;
+use App\Handlers\ListingHandler;
 
 class ListingController extends Controller implements HasMiddleware
 {
@@ -37,7 +38,7 @@ class ListingController extends Controller implements HasMiddleware
     {
         Listing::create(
             $request->validate(
-                Listing::validateRules()
+                ListingHandler::validateRules()
             )
         );
 
@@ -69,7 +70,7 @@ class ListingController extends Controller implements HasMiddleware
     {
         $listing->update(
             $request->validate(
-                Listing::validateRules()
+                ListingHandler::validateRules()
             )
         );
 
