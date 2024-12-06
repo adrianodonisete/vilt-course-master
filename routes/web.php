@@ -12,7 +12,8 @@ Route::get('/', function () {
     return redirect()->route('page.index');
 });
 
-Route::resource('listing', ListingController::class);
+Route::resource('listing', ListingController::class)
+    ->middleware('auth');
 
 // Route::resource('listing', ListingController::class)
 //     ->only(['create', 'store', 'edit', 'update', 'destroy'])

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
@@ -11,6 +12,14 @@ use App\Handlers\ListingHandler;
 
 class ListingController extends Controller implements HasMiddleware
 {
+    public function __construct()
+    {
+        // dd(Gate::any(['view'], [User::class, Listing::class]));
+
+        // $response = Gate::inspect('view');
+        // dd($response);
+    }
+
     public static function middleware(): array
     {
         return [
@@ -36,11 +45,12 @@ class ListingController extends Controller implements HasMiddleware
 
     public function store(Request $request)
     {
-        Listing::create(
-            $request->validate(
-                ListingHandler::validateRules()
-            )
+        $validate = $request->validate(
+            ListingHandler::validateRules()
         );
+
+        // Listing::create($validate);
+        $request->user()->listings()->create($validate);
 
         return redirect()->route('listing.index')
             ->with('success', 'Listing was created!');
@@ -48,6 +58,13 @@ class ListingController extends Controller implements HasMiddleware
 
     public function show(Listing $listing)
     {
+        // if (Auth::user()->cannot('view', $listing)) {
+        //     abort(403);
+        // }
+        if (! Gate::allows('view', $listing)) {
+            abort(403);
+        }
+
         return inertia(
             'Listing/Show',
             [
