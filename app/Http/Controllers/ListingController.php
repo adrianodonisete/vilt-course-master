@@ -75,6 +75,10 @@ class ListingController extends Controller implements HasMiddleware
 
     public function edit(Listing $listing)
     {
+        if (! Gate::allows('update', $listing)) {
+            abort(403);
+        }
+
         return inertia(
             'Listing/Edit',
             [
@@ -85,6 +89,10 @@ class ListingController extends Controller implements HasMiddleware
 
     public function update(Request $request, Listing $listing)
     {
+        if (! Gate::allows('update', $listing)) {
+            abort(403);
+        }
+
         $listing->update(
             $request->validate(
                 ListingHandler::validateRules()
@@ -97,6 +105,10 @@ class ListingController extends Controller implements HasMiddleware
 
     public function destroy(Listing $listing)
     {
+        if (! Gate::allows('delete', $listing)) {
+            abort(403);
+        }
+
         $listing->delete();
 
         return redirect()->back()
