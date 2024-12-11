@@ -5,9 +5,8 @@
 			:key="index"
 			:href="link.url"
 			class="py-2 px4 rounded-md"
-			:class="{ 'bg-indigo-500 dark:bg-indigo-800 text-gray-300': link.active }">
-			{{ link.label }}
-		</Link>
+			:class="{ 'bg-indigo-500 dark:bg-indigo-800 text-gray-300': link.active }"
+			v-html="link.label" />
 	</div>
 </template>
 
