@@ -20,3 +20,5 @@ yarn-error.log
 /.vscode
 
 .editorconfig2
+
+/.github
