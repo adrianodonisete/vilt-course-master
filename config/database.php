@@ -59,6 +59,26 @@ return [
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
 
+        'mariaglpi' => [
+            'driver' => 'mysql', //'mariadb',
+            'url' => env('DB_URL_MARIAGLPI'),
+            'host' => env('DB_HOST_MARIAGLPI', '127.0.0.1'),
+            'port' => env('DB_PORT_MARIAGLPI', '3306'),
+            'database' => env('DB_DATABASE_MARIAGLPI', 'laravel'),
+            'username' => env('DB_USERNAME_MARIAGLPI', 'root'),
+            'password' => env('DB_PASSWORD_MARIAGLPI', ''),
+            'unix_socket' => env('DB_SOCKET_MARIAGLPI', ''),
+            'charset' => env('DB_CHARSET_MARIAGLPI', 'utf8mb4'),
+            'collation' => env('DB_COLLATION_MARIAGLPI', 'utf8mb4_unicode_ci'),
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => false, // default é true, mas nesse caso tem que ser false
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ],
+
         'mariadb' => [
             'driver' => 'mariadb',
             'url' => env('DB_URL'),

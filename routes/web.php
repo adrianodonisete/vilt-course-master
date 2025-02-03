@@ -70,3 +70,6 @@ Route::get('cean', [EanController::class, 'show'])
     ->name('cean.show');
 Route::post('cean', [EanController::class, 'store'])
     ->name('cean.store');
+
+// telas controle ti
+require __DIR__ . '/Glpi/routes_glpi.php';

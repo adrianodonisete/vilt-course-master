@@ -5,11 +5,14 @@ namespace App\Models\Glpi;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Carbon\Carbon;
+
+use App\Traits\Glpi\FilterControleTi;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ControleTi extends Model
 {
+    use FilterControleTi;
+
     const PER_PAGE = 30;
 
     protected $connection = 'mariaglpi';
@@ -26,15 +29,8 @@ class ControleTi extends Model
         'jira',
         'area',
         'status',
-        'cronMoverJiraStatusGLPI',
-        'cronIdUltimaMsgTI',
         'priority_order',
         'priority_number',
-    ];
-
-    protected $hidden = [
-        'cronMoverJiraStatusGLPI',
-        'cronIdUltimaMsgTI',
     ];
 
     protected function casts(): array
@@ -46,33 +42,40 @@ class ControleTi extends Model
             'date_mod' => 'datetime',
             'area' => 'integer',
             'status' => 'integer',
-            'cronMoverJiraStatusGLPI' => 'datetime',
-            'cronIdUltimaMsgTI' => 'integer',
             'priority_order' => 'integer',
             'priority_number' => 'decimal:14,6',
         ];
     }
 
-    protected function dateCreation(): Attribute
+    protected function priorityNumber(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => Carbon::parse($value)->format('d/m/Y H:i:s'),
+            get: fn($value) => number_format($value, 6, '.', ''),
         );
     }
 
-    protected function dateMod(): Attribute
+    public function filter(int $currentPage = 1, ?array $filters = []): LengthAwarePaginator
     {
-        return Attribute::make(
-            get: fn($value) => Carbon::parse($value)->format('d/m/Y H:i:s'),
-        );
-    }
+        $result = DB::connection($this->connection)
+            ->table($this->table);
+        $result = $this->makeFilters($result, $filters);
+        $result = $result->orderBy('id', 'DESC')
+            ->get();
 
-    public function paginated(int $currentPage = 1): LengthAwarePaginator
-    {
-        return DB::connection($this->connection)
-            ->table($this->table)
-            ->orderBy('id', 'desc')
-            ->paginate(self::PER_PAGE, ['*'], 'page', $currentPage);
+        $items = collect($result);
+        $items = $items->skip(($currentPage - 1) * self::PER_PAGE)
+            ->take(self::PER_PAGE)
+            ->map(fn($item) => new self((array) $item));
+
+        return new LengthAwarePaginator(
+            $items,
+            $result->count(),
+            self::PER_PAGE,
+            $currentPage,
+            [
+                'path' => LengthAwarePaginator::resolveCurrentPath(),
+            ]
+        );
     }
 
     public function one(int $id): ?ControleTi

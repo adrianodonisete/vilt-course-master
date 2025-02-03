@@ -12,8 +12,9 @@ class ControleTiController extends Controller
     public function index(Request $request)
     {
         $currentPage = $request->input('page', 1);
-        $paginate = (new ControleTi())->paginated($currentPage);
-        return response()->json($paginate);
+        $paginator = (new ControleTi())->filter($currentPage);
+        $result = $paginator->items();
+        return view('glpi.index', compact('result', 'paginator'));
     }
 
     public function show($id)
