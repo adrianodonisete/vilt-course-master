@@ -17,10 +17,12 @@ class ControleTiController extends Controller
         return view('glpi.index', compact('result', 'paginator'));
     }
 
-    public function show($id)
+    public function show(int $id)
     {
         $controleTi = (new ControleTi())->one($id);
-        return response()->json($controleTi);
+        return response()->json(
+            literal(success: true, message: 'Ok', data: $controleTi)
+        );
     }
 
     public function create()
@@ -55,26 +57,25 @@ class ControleTiController extends Controller
     public function edit($id)
     {
         $controleTi = (new ControleTi())->one($id);
-        return response()->json($controleTi);
+        if (!$controleTi) {
+            return redirect()->route('controle-ti.index')
+                ->with('error', 'ControleTi não encontrado.');
+        }
+        return view('glpi.form', compact('controleTi'));
     }
 
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'id_ticket' => 'required|integer',
-            'name' => 'required|string|max:255',
-            'date_creation' => 'required|date',
-            'date_mod' => 'required|date',
-            'note' => 'nullable|string',
+        $validated = $request->validate([
             'proj' => 'nullable|string',
             'jira' => 'nullable|string',
-            'area' => 'required|integer',
-            'status' => 'required|integer',
             'priority_order' => 'required|integer',
             'priority_number' => 'required|numeric',
         ]);
 
-        $updated = (new ControleTi())->updateControleTi($id, $validatedData);
+        dd($validated);
+
+        $updated = (new ControleTi())->updateControleTi($id, $validated);
         return redirect()->route('controle-ti.index')
             ->with(
                 $updated ? 'success' : 'error',

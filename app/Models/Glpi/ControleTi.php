@@ -13,7 +13,7 @@ class ControleTi extends Model
 {
     use FilterControleTi;
 
-    const PER_PAGE = 30;
+    const PER_PAGE = 50;
 
     protected $connection = 'mariaglpi';
     protected $table = 'controle_ti';
@@ -57,13 +57,14 @@ class ControleTi extends Model
     public function filter(int $currentPage = 1, ?array $filters = []): LengthAwarePaginator
     {
         $result = DB::connection($this->connection)
-            ->table($this->table);
+            ->table($this->table)
+            ->select($this->fillable);
         $result = $this->makeFilters($result, $filters);
         $result = $result->orderBy('id', 'DESC')
             ->get();
 
-        $items = collect($result);
-        $items = $items->skip(($currentPage - 1) * self::PER_PAGE)
+        $items = collect($result)
+            ->skip(($currentPage - 1) * self::PER_PAGE)
             ->take(self::PER_PAGE)
             ->map(fn($item) => new self((array) $item));
 

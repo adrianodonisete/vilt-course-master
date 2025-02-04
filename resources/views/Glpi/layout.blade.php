@@ -32,9 +32,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Index</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Create New ControleTI</a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="#">About Us</a>
                     </li>

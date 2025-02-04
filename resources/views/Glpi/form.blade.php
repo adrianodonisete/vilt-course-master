@@ -1,99 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('glpi.layout', ['title_page' => 'Listar Registros Controle TI'])
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controle TI</title>
+@section('content')
+    <h1>Editar Controle TI &dash; ID#{{ $controleTi->id }}</h1>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
+    <form action="{{ route('controle-ti.update', $controleTi->id) }}" method="POST" class="mt-5">
+        @csrf
+        @method('PUT')
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Controle TI</a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Index</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Create New ControleTI</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About Us</a>
-                    </li>
-                </ul>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="id_ticket" class="form-label">ID Ticket:</label>
+                <div class="text-glpi">{{ $controleTi->id_ticket }}</div>
+            </div>
+            <div class="col-md-8">
+                <label for="name" class="form-label">Nome:</label>
+                <div class="text-glpi">{{ $controleTi->name }}</div>
             </div>
         </div>
-    </nav>
 
-    <div class="container mt-5">
-        <h1>Controle TI List</h1>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="date_creation" class="form-label">Data de Criação:</label>
+                <div class="text-glpi">{{ $controleTi->date_creation->format('d/m/Y H:i:s') }}</div>
+            </div>
+            <div class="col-md-4">
+                <label for="date_mod" class="form-label">Data de Modificação:</label>
+                <div class="text-glpi">{{ $controleTi->date_mod->format('d/m/Y H:i:s') }}</div>
+            </div>
+            <div class="col-md-4">
+                <label for="note" class="form-label">Note:</label>
+                <div class="text-glpi">{{ $controleTi->note }}</div>
+            </div>
+        </div>
 
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>ID Ticket</th>
-                    <th>Nome</th>
-                    <th>Data de Criação</th>
-                    <th>Data de Modificação</th>
-                    <th>Note</th>
-                    <th>Projeto</th>
-                    <th>Jira</th>
-                    <th>Área</th>
-                    <th>Status</th>
-                    <th>Priority Order</th>
-                    <th>Priority Number</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($result as $item)
-                    <tr>
-                        <td>{{ $item->id }}</td>
-                        <td>
-                            <a href="https://helpdesk.systax.net/glpi/front/ticket.form.php?id={{ $item->id_ticket }}"
-                                target="_blank">{{ $item->id_ticket }}</a>
-                        </td>
-                        <td>{{ $item->name }}</td>
-                        <td>{{ \Carbon\Carbon::parse($item->date_creation)->format('d/m/Y H:i:s') }}</td>
-                        <td>{{ \Carbon\Carbon::parse($item->date_mod)->format('d/m/Y H:i:s') }}</td>
-                        <td>{{ $item->note }}</td>
-                        <td>{{ $item->proj }}</td>
-                        <td>{{ $item->jira }}</td>
-                        <td>{{ $item->area }}</td>
-                        <td>{{ $item->status }}</td>
-                        <td>{{ $item->priority_order }}</td>
-                        <td>{{ $item->priority_number }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="12">
-                        {{ $paginator->links('pagination::bootstrap-5') }}
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="proj" class="form-label">Projeto</label>
+                <input type="text" class="form-control" id="proj" name="proj" value="{{ $controleTi->proj }}">
+            </div>
+            <div class="col-md-6">
+                <label for="jira" class="form-label">Jira</label>
+                <input type="text" class="form-control" id="jira" name="jira" value="{{ $controleTi->jira }}">
+            </div>
+        </div>
 
-    <footer class="bg-light text-center py-3 mt-5">
-        <p>Controle TI &copy; {{ date('Y') }}</p>
-    </footer>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="priority_order" class="form-label">Priority Order</label>
+                <input type="number" class="form-control" id="priority_order" name="priority_order"
+                    value="{{ $controleTi->priority_order }}">
+            </div>
+            <div class="col-md-6">
+                <label for="priority_number" class="form-label">Priority Number</label>
+                <input type="number" step="0.000001" class="form-control" id="priority_number" name="priority_number"
+                    value="{{ $controleTi->priority_number }}">
+            </div>
+        </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+        <button type="submit" class="btn btn-primary">Salvar</button>
+    </form>
+@endsection
+
+@section('asset_css')
+    <style>
+        label.form-label {
+            font-weight: bold;
+        }
+    </style>
+@endsection
+
+@section('asset_js')
+    <script type="text/javascript">
+        var csrfTokenIndex = `{{ csrf_token() }}`;
     </script>
-</body>
-
-</html>
+@endsection
