@@ -4,15 +4,11 @@
     <h1>Controle TI</h1>
 
     @session('error')
-        <div class="alert alert-danger">
-            {{ $value }}
-        </div>
+        <x-alert type="danger" :message="$value" />
     @endsession
 
     @session('success')
-        <div class="alert alert-success">
-            {{ $value }}
-        </div>
+        <x-alert type="success" :message="$value" />
     @endsession
 
     @include('glpi.includes.search')
