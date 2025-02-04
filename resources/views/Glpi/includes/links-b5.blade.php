@@ -17,7 +17,9 @@
                 {{-- Next Page Link --}}
                 @if ($paginator->hasMorePages())
                     <li class="page-item">
-                        <a class="page-link" href="{{ $paginator->nextPageUrl() }}" rel="next">@lang('pagination.next')</a>
+                        <a class="page-link" href="{{ $paginator->nextPageUrl() }}" rel="next">
+                            @lang('pagination.next')
+                        </a>
                     </li>
                 @else
                     <li class="page-item disabled" aria-disabled="true">
@@ -30,13 +32,20 @@
         <div class="d-none flex-sm-fill d-sm-flex align-items-sm-center justify-content-sm-between">
             <div>
                 <p class="small text-muted">
-                    {!! __('Showing') !!}
+                    Mostrando de
                     <span class="fw-semibold">{{ $paginator->firstItem() }}</span>
-                    {!! __('to') !!}
+                    até
                     <span class="fw-semibold">{{ $paginator->lastItem() }}</span>
-                    {!! __('of') !!}
+                    de
                     <span class="fw-semibold">{{ $paginator->total() }}</span>
-                    {!! __('results') !!}
+                    registros
+
+                    &mdash;
+
+                    Página
+                    <span class="fw-semibold">{{ $paginator->currentPage() }}</span>
+                    de
+                    <span class="fw-semibold">{{ $paginator->lastPage() }}</span>
                 </p>
             </div>
 

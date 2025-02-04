@@ -13,7 +13,7 @@ class ControleTi extends Model
 {
     use FilterControleTi;
 
-    const PER_PAGE = 50;
+    const PER_PAGE = 10;
 
     protected $connection = 'mariaglpi';
     protected $table = 'controle_ti';

@@ -21,15 +21,39 @@ trait FilterControleTi
             ]);
         }
 
-        if (filled($filters)) {
-            foreach ($filters as $column => $value) {
-                if (in_array($column, ['date_creation_ini', 'date_creation_end'])) {
-                    continue;
-                }
-                $result->where($column, $value);
+        foreach ($filters as $filter => $value) {
+            $value = trim($value);
+            $isValid = $this->isFilter($filter) && filled($value);
+
+            if ($isValid && $this->isLike($filter)) {
+                $result->where($filter, 'like', "%{$value}%");
+            } elseif ($isValid) {
+                $result->where($filter, $value);
             }
         }
 
         return $result;
+    }
+
+    public function isLike(string $filter): bool
+    {
+        $like = [
+            'name',
+            'proj',
+            'jira',
+        ];
+        return in_array($filter, $like);
+    }
+
+    public function isFilter(string $filter): bool
+    {
+        $valid = [
+            'id',
+            'id_ticket',
+            'name',
+            'proj',
+            'jira',
+        ];
+        return in_array($filter, $valid);
     }
 }

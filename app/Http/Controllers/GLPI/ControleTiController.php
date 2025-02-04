@@ -12,11 +12,12 @@ class ControleTiController extends Controller
 {
     public function index(Request $request)
     {
-        $currentPage = $request->input('page', 1);
-        $filters = $request->all();
-        $paginator = (new ControleTi())->filter($currentPage, $filters);
-        $result = $paginator->items();
-        return view('glpi.index', compact('result', 'paginator'));
+        $paginator = (new ControleTi())->filter(
+            $request->input('page', 1),
+            $request->all()
+        );
+
+        return view('glpi.index', compact('paginator'));
     }
 
     public function show(int $id)
