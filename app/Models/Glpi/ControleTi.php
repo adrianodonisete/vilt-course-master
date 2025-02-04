@@ -54,7 +54,7 @@ class ControleTi extends Model
         );
     }
 
-    public function filter(int $currentPage = 1, ?array $filters = []): LengthAwarePaginator
+    public function filter(int $currentPage = 1, array $filters): LengthAwarePaginator
     {
         $result = DB::connection($this->connection)
             ->table($this->table)
@@ -89,15 +89,6 @@ class ControleTi extends Model
         return $result ? new self((array) $result) : null;
     }
 
-    public function createControleTi(array $data): bool
-    {
-        $id = DB::connection($this->connection)
-            ->table($this->table)
-            ->insertGetId($data);
-
-        return $id > 0;
-    }
-
     public function updateControleTi(int $id, array $data): bool
     {
         $updated = DB::connection($this->connection)
@@ -108,13 +99,22 @@ class ControleTi extends Model
         return $updated > 0;
     }
 
-    public function deleteControleTi(int $id): bool
-    {
-        $deleted = DB::connection($this->connection)
-            ->table($this->table)
-            ->where('id', $id)
-            ->delete();
+    // public function createControleTi(array $data): bool
+    // {
+    //     $id = DB::connection($this->connection)
+    //         ->table($this->table)
+    //         ->insertGetId($data);
 
-        return $deleted > 0;
-    }
+    //     return $id > 0;
+    // }
+
+    // public function deleteControleTi(int $id): bool
+    // {
+    //     $deleted = DB::connection($this->connection)
+    //         ->table($this->table)
+    //         ->where('id', $id)
+    //         ->delete();
+
+    //     return $deleted > 0;
+    // }
 }

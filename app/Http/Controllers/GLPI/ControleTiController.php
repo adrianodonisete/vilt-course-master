@@ -6,13 +6,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Glpi\ControleTi;
+use App\Http\Requests\Glpi\ControleTiRequest;
 
 class ControleTiController extends Controller
 {
     public function index(Request $request)
     {
         $currentPage = $request->input('page', 1);
-        $paginator = (new ControleTi())->filter($currentPage);
+        $filters = $request->all();
+        $paginator = (new ControleTi())->filter($currentPage, $filters);
         $result = $paginator->items();
         return view('glpi.index', compact('result', 'paginator'));
     }
@@ -25,71 +27,54 @@ class ControleTiController extends Controller
         );
     }
 
-    public function create()
-    {
-        return response()->json(['message' => 'Create method called']);
-    }
+    // public function create()
+    // {
+    //     return response()->json(['message' => 'Create method called']);
+    // }
 
-    public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'id_ticket' => 'required|integer',
-            'name' => 'required|string|max:255',
-            'date_creation' => 'required|date',
-            'date_mod' => 'required|date',
-            'note' => 'nullable|string',
-            'proj' => 'nullable|string',
-            'jira' => 'nullable|string',
-            'area' => 'required|integer',
-            'status' => 'required|integer',
-            'priority_order' => 'required|integer',
-            'priority_number' => 'required|numeric',
-        ]);
+    // public function store(Request $request)
+    // {
+    //     $validatedData = $request->validate([
+    //         'priority_number' => 'nullable|numeric',
+    //     ]);
 
-        $created = (new ControleTi())->createControleTi($validatedData);
-        return redirect()->route('controle-ti.index')
-            ->with(
-                $created ? 'success' : 'error',
-                $created ? 'ControleTi criado com sucesso.' : 'Erro ao criar ControleTi.'
-            );
-    }
+    //     $created = (new ControleTi())->createControleTi($validatedData);
+    //     return redirect()->route('controle-ti.index')
+    //         ->with(
+    //             $created ? 'success' : 'error',
+    //             $created ? 'ControleTi criado com sucesso.' : 'Erro ao criar ControleTi.'
+    //         );
+    // }
 
-    public function edit($id)
+    public function edit(int $id)
     {
         $controleTi = (new ControleTi())->one($id);
         if (!$controleTi) {
             return redirect()->route('controle-ti.index')
-                ->with('error', 'ControleTi não encontrado.');
+                ->with('error', "ControleTi ID#{$id} não encontrado.");
         }
         return view('glpi.form', compact('controleTi'));
     }
 
-    public function update(Request $request, $id)
+    public function update(ControleTiRequest $request, $id)
     {
-        $validated = $request->validate([
-            'proj' => 'nullable|string',
-            'jira' => 'nullable|string',
-            'priority_order' => 'required|integer',
-            'priority_number' => 'required|numeric',
-        ]);
-
-        dd($validated);
+        $validated = $request->validated();
 
         $updated = (new ControleTi())->updateControleTi($id, $validated);
         return redirect()->route('controle-ti.index')
             ->with(
                 $updated ? 'success' : 'error',
-                $updated ? 'ControleTi atualizado com sucesso.' : 'Erro ao atualizar ControleTi.'
+                $updated ? "ControleTi ID#{$id} atualizado com sucesso." : "Erro ao atualizar ControleTi ID#{$id}."
             );
     }
 
-    public function destroy($id)
-    {
-        $deleted = (new ControleTi())->deleteControleTi($id);
-        return redirect()->route('controle-ti.index')
-            ->with(
-                $deleted ? 'success' : 'error',
-                $deleted ? 'ControleTi excluído com sucesso.' : 'Erro ao excluir ControleTi.'
-            );
-    }
+    // public function destroy($id)
+    // {
+    //     $deleted = (new ControleTi())->deleteControleTi($id);
+    //     return redirect()->route('controle-ti.index')
+    //         ->with(
+    //             $deleted ? 'success' : 'error',
+    //             $deleted ? 'ControleTi excluído com sucesso.' : 'Erro ao excluir ControleTi.'
+    //         );
+    // }
 }

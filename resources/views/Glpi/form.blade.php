@@ -3,6 +3,16 @@
 @section('content')
     <h1>Editar Controle TI &dash; ID#{{ $controleTi->id }}</h1>
 
+    @if ($errors->any())
+        <div class="alert alert-danger mt-4 box-errors">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form action="{{ route('controle-ti.update', $controleTi->id) }}" method="POST" class="mt-5">
         @csrf
         @method('PUT')
@@ -36,11 +46,13 @@
         <div class="row mb-3">
             <div class="col-md-6">
                 <label for="proj" class="form-label">Projeto</label>
-                <input type="text" class="form-control" id="proj" name="proj" value="{{ $controleTi->proj }}">
+                <input type="text" class="form-control" id="proj" name="proj"
+                    value="{{ old('proj', $controleTi->proj) }}">
             </div>
             <div class="col-md-6">
                 <label for="jira" class="form-label">Jira</label>
-                <input type="text" class="form-control" id="jira" name="jira" value="{{ $controleTi->jira }}">
+                <input type="text" class="form-control" id="jira" name="jira"
+                    value="{{ old('jira', $controleTi->jira) }}">
             </div>
         </div>
 
@@ -48,12 +60,12 @@
             <div class="col-md-6">
                 <label for="priority_order" class="form-label">Priority Order</label>
                 <input type="number" class="form-control" id="priority_order" name="priority_order"
-                    value="{{ $controleTi->priority_order }}">
+                    value="{{ old('priority_order', $controleTi->priority_order) }}">
             </div>
             <div class="col-md-6">
                 <label for="priority_number" class="form-label">Priority Number</label>
                 <input type="number" step="0.000001" class="form-control" id="priority_number" name="priority_number"
-                    value="{{ $controleTi->priority_number }}">
+                    value="{{ old('priority_number', $controleTi->priority_number) }}">
             </div>
         </div>
 
@@ -65,6 +77,10 @@
     <style>
         label.form-label {
             font-weight: bold;
+        }
+
+        .box-errors ul li {
+            list-style: none;
         }
     </style>
 @endsection
