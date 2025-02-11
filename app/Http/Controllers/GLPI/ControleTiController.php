@@ -57,7 +57,7 @@ class ControleTiController extends Controller
         return view('glpi.form', compact('controleTi'));
     }
 
-    public function update(ControleTiRequest $request, $id)
+    public function update(ControleTiRequest $request, int $id)
     {
         $validated = $request->validated();
 
