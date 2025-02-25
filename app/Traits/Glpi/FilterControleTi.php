@@ -9,7 +9,10 @@ trait FilterControleTi
 {
     public function makeFilters(Builder $result, array $filters): Builder
     {
-        if (isset($filters['date_creation_ini']) && isset($filters['date_creation_end'])) {
+        $date_creation_ini = $filters['date_creation_ini'] ?? null;
+        $date_creation_end = $filters['date_creation_end'] ?? null;
+
+        if ($date_creation_ini && $date_creation_end) {
             $result->whereBetween('date_creation', [
                 Carbon::parse($filters['date_creation_ini'])->startOfDay(),
                 Carbon::parse($filters['date_creation_end'])->endOfDay(),
